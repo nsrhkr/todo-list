@@ -5,7 +5,9 @@
 .l-input {
   padding: 40px 0;
 }
-
+.l-input-text {
+  width: 500px;
+}
 /* TODOアイテム */
 .l-item {
   display: flex;

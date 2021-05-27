@@ -13,27 +13,13 @@
     <header class="l-block">
       <h1>TODO LIST</h1>
     </header>
-    <div class="l-input"><label for="task">タスクを入力（1～30文字）</label>
-      <div><input type="text" id="task" name="task" required minlength="1" maxlength="20">
-        <input type="button" value="登録">
+    <div class="l-input"><label for="todo">タスクを入力（1～30文字）</label>
+      <div><input id="new-todo" class="l-input-text" type="text" name="new-todo" required minlength="1" maxlength="30">
+        <input type="button" value="登録" onclick="submit()">
       </div>
     </div>
-    <div class="l-list">
-      <div class="l-item md-item">
-        <div class="l-item-checkbox"><input type="checkbox"></div>
-        <div class="l-item-text">
-          <span>hoge</span>
-        </div>
-        <div class="l-item-delete"><button>削除</button></div>
-      </div>
-      <div class="l-item md-item">
-        <div class="l-item-checkbox"><input type="checkbox"></div>
-        <div class="l-item-text">
-          <span>hoge</span>
-        </div>
-        <div class="l-item-delete"><button>削除</button></div>
-      </div>
-    </div>
+    <div id="todo-list" class="l-list"></div>
+    <script src="app.js"></script>
 </body>
 
 </html>
