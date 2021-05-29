@@ -9,7 +9,7 @@ class TodoItem {
   constructor(todoText) {
     this.id = '';
     this.todoText = todoText;
-    this.todoElement = this.createTodo();
+    this.todoHtml = this.createTodo();
   }
 
   /**
@@ -65,7 +65,7 @@ const submit = () => {
   // TODOアイテムのhtml要素(テキスト)を用意
   const todoItem = new TodoItem(input.value);
   // TODOリストの先頭に挿入
-  todoList.insertAdjacentHTML('afterbegin', todoItem.todoElement);
+  todoList.insertAdjacentHTML('afterbegin', todoItem.todoHtml);
   // テキストボックスの中身をリセット
   input.value = '';
   console.log(`New TODO: ${todoItem.todoText}`);
