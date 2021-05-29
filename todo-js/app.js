@@ -7,15 +7,17 @@ const todoList = document.getElementById("todo-list"); // TODOリストエリア
  */
 class TodoItem {
   constructor(todoText) {
-    this.id = new Date().getTime().toString(); // 経過ミリ秒から簡易idを生成
+    this.id = '';
     this.todoText = todoText;
     this.todoElement = this.createTodo();
   }
+
   /**
    * TODOアイテムのhtml要素を作成
    * @returns {string} html elementの文字列
    */
   createTodo() {
+    this.id = this.generateId(3); // idを生成（idが重複した場合3回まで再生成）
     return `<div id="${this.id}" class="l-item md-item">
 <div class="l-item-checkbox"><input type="checkbox" onclick="changeStatus(${this.id})"></div>
 <div class="l-item-text">
@@ -24,8 +26,35 @@ class TodoItem {
 <div class="l-item-delete"><button onclick="remove(${this.id})">削除</button></div>
 </div>`;
   }
-}
 
+  /**
+   * 一意のidを生成
+   * @param {number} n idが重複した場合n回まで再生成
+   * @return {string} id
+   */
+  generateId(n) {
+    // ミリ秒から簡易idを生成
+    let id = new Date().getTime().toString();
+    try {
+      // 重複チェック
+      Array.prototype.map.call(todoList.children, (child) => {
+        if (child.id === id) {
+          throw new Error(`${id} is conflict ID.`);
+        }
+      });
+    } catch (e) {
+      if (n > 0) {
+        // 再生成
+        this.generateId(n - 1);
+      } else {
+        // 試行回数を超えた場合はアラートを表示
+        alert('IDの生成に失敗しました。もう一度登録ボタンをクリックしてください。');
+        throw (e);
+      }
+    }
+    return id;
+  }
+}
 
 /**
  * 新しいTODOアイテムを登録
