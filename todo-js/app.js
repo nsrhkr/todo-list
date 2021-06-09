@@ -18,7 +18,6 @@ class TodoItem {
    */
   createTodo() {
     this.id = this.generateId(3); // idを生成（idが重複した場合3回まで再生成）
-    console.log('id:', this.id);
 
     // 完了チェックボックス
     const checkbox = document.createElement("input");
@@ -73,7 +72,6 @@ class TodoItem {
       let id = new Date().getTime().toString();
       try {
         // 重複チェック
-        console.log('try:', i);
         Array.prototype.map.call(todoList.children, (child) => {
           if (child.id === id) {
             throw new Error(`${id} is conflict ID.`);
