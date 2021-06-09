@@ -7,7 +7,7 @@ const todoList = document.getElementById("todo-list"); // TODOリストエリア
  */
 class TodoItem {
   constructor(todoText) {
-    this.id = '';
+    this.id = "";
     this.todoText = todoText;
     this.todoHtml = this.createTodo();
   }
@@ -18,39 +18,44 @@ class TodoItem {
    */
   createTodo() {
     this.id = this.generateId(3); // idを生成（idが重複した場合3回まで再生成）
+    console.log('id:', this.id);
 
     // 完了チェックボックス
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
     // チェックイベント登録
-    checkbox.addEventListener('change', (event) => {changeStatus(event);});
+    checkbox.addEventListener("change", (event) => {
+      changeStatus(event);
+    });
     // 完了チェックボックスの親
-    const checkboxArea = document.createElement('div');
-    checkboxArea.className = 'l-item-checkbox';
+    const checkboxArea = document.createElement("div");
+    checkboxArea.className = "l-item-checkbox";
     checkboxArea.appendChild(checkbox);
 
     // タスク名表示部
-    const span = document.createElement('span');
+    const span = document.createElement("span");
     span.appendChild(document.createTextNode(this.todoText));
     // タスク名表示部の親
-    const textarea = document.createElement('div');
-    textarea.className = 'l-item-text'
+    const textarea = document.createElement("div");
+    textarea.className = "l-item-text";
     textarea.appendChild(span);
 
     // 削除ボタン
-    const deleteButtonArea = document.createElement('div');
-    deleteButtonArea.className = 'l-item-delete';
+    const deleteButtonArea = document.createElement("div");
+    deleteButtonArea.className = "l-item-delete";
     // 削除ボタンの親
-    const deleteButton = document.createElement('button');
-    deleteButton.appendChild(document.createTextNode('削除'));
+    const deleteButton = document.createElement("button");
+    deleteButton.appendChild(document.createTextNode("削除"));
     // 削除イベント登録
-    deleteButton.addEventListener('click', (event) => {remove(event);});
+    deleteButton.addEventListener("click", (event) => {
+      remove(event);
+    });
     deleteButtonArea.appendChild(deleteButton);
 
     // TODOアイテムの一番外側の要素
-    const box = document.createElement('div');
-    box.id = this.id
-    box.classList.add('l-item', 'md-item');
+    const box = document.createElement("div");
+    box.id = this.id;
+    box.classList.add("l-item", "md-item");
     box.appendChild(checkboxArea);
     box.appendChild(textarea);
     box.appendChild(deleteButtonArea);
@@ -63,26 +68,26 @@ class TodoItem {
    * @return {string} id
    */
   generateId(n) {
-    // ミリ秒から簡易idを生成
-    let id = new Date().getTime().toString();
-    try {
-      // 重複チェック
-      Array.prototype.map.call(todoList.children, (child) => {
-        if (child.id === id) {
-          throw new Error(`${id} is conflict ID.`);
+    for (let i = 0; i <= n; i++) {
+      // ミリ秒から簡易idを生成
+      let id = new Date().getTime().toString();
+      try {
+        // 重複チェック
+        console.log('try:', i);
+        Array.prototype.map.call(todoList.children, (child) => {
+          if (child.id === id) {
+            throw new Error(`${id} is conflict ID.`);
+          }
+        });
+        return id;
+      } catch (e) {
+        if (n === i) {
+          // 試行回数を超えた場合はアラートを表示
+          alert("IDの生成に失敗しました。もう一度登録ボタンをクリックしてください。");
+          throw e;
         }
-      });
-    } catch (e) {
-      if (n > 0) {
-        // 再生成
-        this.generateId(n - 1);
-      } else {
-        // 試行回数を超えた場合はアラートを表示
-        alert('IDの生成に失敗しました。もう一度登録ボタンをクリックしてください。');
-        throw (e);
       }
     }
-    return id;
   }
 }
 
