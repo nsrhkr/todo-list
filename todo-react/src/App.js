@@ -1,57 +1,65 @@
-import "./App.css";
+import React, { useState, useCallback } from "react";
+import { nanoid } from "nanoid";
 
-function Header() {
+import "./App.css";
+import Form from "./Form";
+import TodoList from "./TodoList";
+
+// ヘッダ
+const Header = () => {
   return (
-    <header class="l-block">
+    <header className="l-block">
       <h1>TODO LIST</h1>
     </header>
   );
-}
+};
 
-function Input() {
-  return(
-    <div className="l-input">
-      <label for="todo">タスクを入力（1～30文字）</label>
-      <div>
-        <input id="new-todo" className="l-input-text" type="text" name="new-todo" required minlength="1" maxlength="30" />
-        <input type="button" value="登録" onclick="submit()" />
-      </div>
-    </div>
-  );
-}
+const Main = () => {
+  // TODOリスト（配列）
+  const [tasks, setTasks] = useState([]);
 
-function TodoList(props) {
+  // 新しいTODOアイテムを追加
+  const addTask = (taskName) => {
+    const newTask = { key: nanoid(), taskName: taskName, done: false };
+    setTasks([newTask, ...tasks]);
+  };
+
+  // TODOアイテムのステータスを変更
+  const changeStatus = (key) => {
+    const updateTasks = tasks.map((task) => {
+      if (task.key === key) {
+        return { ...task, done: !task.done };
+      }
+      return task;
+    });
+    setTasks(updateTasks);
+  };
+
+  // TODOアイテムを削除
+  const deleteTask = (key) => {
+    const updateTasks = tasks.filter((task) => task.key !== key);
+    setTasks(updateTasks);
+  };
+
   return (
-    <div id="todo-list" class="l-list">
-      <TodoItem />
-    </div>
+    <>
+      <Form addTask={addTask} />
+      <TodoList
+        tasks={tasks}
+        changeStatus={changeStatus}
+        deleteTask={deleteTask}
+      />
+    </>
   );
-}
+};
 
-function TodoItem() {
-  return (
-    <div className="l-item md-item">
-      <div className="l-item-checkbox">
-        <input type="checkbox" />
-      </div>
-      <div className="l-item-text">
-        <span>hoge</span>
-      </div>
-      <div className="l-item-delete">
-        <button>削除</button>
-      </div>
-    </div>
-  );
-}
-
-function App() {
+const App = () => {
   return (
     <>
       <Header />
-      <Input />
-      <TodoList />
+      <Main />
     </>
   );
-}
+};
 
 export default App;
