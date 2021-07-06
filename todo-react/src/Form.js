@@ -1,5 +1,36 @@
 import { useState } from "react"
 
+// ラベル
+const InputLabel = () => {
+  return (
+    <label htmlFor="todo">タスクを入力（1～30文字）</label>
+  );
+}
+
+// 登録ボタン
+const SubmitButton = ({ handleSubmit }) => {
+  return (
+    <input type="submit" value="登録" onSubmit={handleSubmit} />
+  );
+};
+
+// テキストボックス
+const TextBox = ( {taskName, hundleChange} ) => {
+  return (
+    <input
+      id="new-todo"
+      className="l-input-text"
+      type="text"
+      value={taskName}
+      onChange={hundleChange}
+      name="new-todo"
+      minLength="1"
+      maxLength="30"
+      required
+    />
+  );
+};
+
 // 登録フォーム
 const Form = (props) => {
   const [taskName, setTaskName] = useState("");
@@ -16,20 +47,10 @@ const Form = (props) => {
   return (
     <div className="l-input">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="todo">タスクを入力（1～30文字）</label>
+        <InputLabel />
         <div>
-          <input
-            id="new-todo"
-            className="l-input-text"
-            type="text"
-            value={taskName}
-            onChange={hundleChange}
-            name="new-todo"
-            minLength="1"
-            maxLength="30"
-            required
-          />
-          <input type="submit" value="登録" onSubmit={handleSubmit} />
+          <TextBox taskName={taskName} onChange={hundleChange} />
+          <SubmitButton onSubmit={handleSubmit} />
         </div>
       </form>
     </div>
