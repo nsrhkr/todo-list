@@ -49,8 +49,8 @@ const Form = (props) => {
       <form onSubmit={handleSubmit}>
         <InputLabel />
         <div>
-          <TextBox taskName={taskName} onChange={hundleChange} />
-          <SubmitButton onSubmit={handleSubmit} />
+          <TextBox taskName={taskName} hundleChange={hundleChange} />
+          <SubmitButton handleSubmit={handleSubmit} />
         </div>
       </form>
     </div>

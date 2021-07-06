@@ -5,13 +5,22 @@ type TodoListProps = {
   tasks: Task[],
   changeStatus: changeStatus,
   deleteTask: deleteTask
-}
+};
 type TodoItemProps = {
   key: string,
   task: Task,
   changeStatus: changeStatus,
   deleteTask: deleteTask
-}
+};
+type CheckBoxProps = {
+  changeStatus: () => void
+};
+type TaskNameProps = {
+  taskName: string;
+};
+type DeleteBottunProps = {
+  deleteTask: () => void
+};
 
 const TodoList: React.FC<TodoListProps> = (props) => {
   return (
@@ -30,6 +39,21 @@ const TodoList: React.FC<TodoListProps> = (props) => {
   );
 };
 
+// チェックボックス
+const CheckBox: React.FC<CheckBoxProps> = (props) => {
+  return <input type="checkbox" defaultChecked={false} onClick={props.changeStatus} />;
+};
+
+// タスク表示部
+const TaskName: React.FC<TaskNameProps> = (props) => {
+  return <span>{props.taskName}</span>;
+};
+
+// 削除ボタン
+const DeleteBottun: React.FC<DeleteBottunProps> = (props) => {
+  return <button onClick={props.deleteTask}>削除</button>;
+};
+
 const TodoItem: React.FC<TodoItemProps> = (props) => {
   // TODOアイテムのステータス（完了/未完了）を変更
   const changeStatus = () => {
@@ -45,13 +69,13 @@ const TodoItem: React.FC<TodoItemProps> = (props) => {
   return (
     <div className={`l-item md-item ${color}`}>
       <div className="l-item-checkbox">
-        <input type="checkbox" defaultChecked={false} onClick={changeStatus} />
+        <CheckBox changeStatus={changeStatus} />
       </div>
       <div className="l-item-text">
-        <span>{props.task.taskName}</span>
+        <TaskName taskName={props.task.taskName} />
       </div>
       <div className="l-item-delete">
-        <button onClick={deleteTask}>削除</button>
+        <DeleteBottun deleteTask={deleteTask} />
       </div>
     </div>
   );
